@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // Create a scene
 const scene = new THREE.Scene(); 
@@ -10,10 +11,18 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Add the renderer to the DOM
 document.body.appendChild(renderer.domElement);
+// controls.enableDamping = true;
+
+// Add orbit controls
+const controls = new OrbitControls(camera, renderer.domElement);
 
 // Create a cube
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+const textureLoader = new THREE.TextureLoader();
+const texture = textureLoader.load('_FB_IMG_1515956487453.jpg'); // Load the image
+
+const material = new THREE.MeshBasicMaterial({ map: texture });
 
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
@@ -37,10 +46,17 @@ function animate() {
 
 animate();
 
-//Resize according to window size
+// Resize according to window size
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
 
-  camera.updateProjectionMatrix();
+  // camera.updateProjectionMatrix();
 })
+
+// const loop = () => {
+//   requestAnimationFrame(loop);
+//   renderer.render(scene, camera);
+// }
+
+// loop();
